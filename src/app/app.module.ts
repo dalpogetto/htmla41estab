@@ -10,15 +10,11 @@ import { PoTemplatesModule } from '@po-ui/ng-templates';
 import { FormsModule } from '@angular/forms';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { CalculoComponent } from './components/calculo/calculo.component';
-import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardComponent,
-    CalculoComponent,
-    HomeComponent
   ],
   imports: [
     BrowserModule,

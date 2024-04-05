@@ -1,32 +1,7 @@
 
-<div class="po-wrapper">
-  <po-menu [p-menus]="menus" [p-automatic-toggle]="false" [p-collapsed]="true">
-    <div *p-menu-header-template>
-      <po-widget>
-        <p style="color: #045B8F"><b>AUTO ATENDIMENTO</b></p>
-        <div *ngIf="estabInfo !== ''">
-          <hr>
-          <p style="color: #045B8F"><i class="po-icon po-icon-pin"></i><i>&nbsp; {{estabInfo}}</i></p>
-          <p style="color: #045B8F"><i class="po-icon po-icon-user"></i><i>&nbsp; {{tecnicoInfo}}</i></p>
-          <p style="color: #045B8F" *ngIf="processoInfo !== ''"><i class="po-icon po-icon-clipboard"></i><i>&nbsp;
-              {{processoInfo}}</i></p>
-          <br> 
-          <div *ngIf="dashboard === true">
-            <p style="color: #045B8F"><b>PROCESSAMENTO</b></p>
-            <div *ngIf="estabInfo !== ''">
-              <hr>
-              <p style="color: #045B8F"><i> Notas de Entrada &nbsp;</i><i class="po-icon po-icon-ok"></i></p>
-              <p style="color: #045B8F"><i> Atualizar Entradas &nbsp;</i><i class="po-icon po-icon-okn"></i></p>
-              <p style="color: #045B8F"><i> Notas de Saída &nbsp;</i><i class="po-icon po-icon-okn"></i></p>
-              <p style="color: #045B8F"><i> Gerar Reparos &nbsp;</i><i class="po-icon po-icon-okn"></i></p>
-            </div>
-            <div class="po-row">&nbsp;</div>
-          </div>
-        </div>
-      </po-widget>
-    </div>
-  </po-menu>
-  <po-toolbar p-title={{tituloTela}}></po-toolbar>
+<div class="po-wrapper2">
+  
+  <po-toolbar p-title="A41 - PARÂMETROS ESTABELECIMENTO"></po-toolbar>
 
   <po-page-default>
     <router-outlet></router-outlet>

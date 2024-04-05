@@ -42,130 +42,17 @@ export class TotvsService {
 
 
 //------------ Colunas Grid Saldo Terceiro
-obterColunasExtraKit(): Array<PoTableColumn> {
+obterColunas(): Array<PoTableColumn> {
   return [
-    { property: 'tipo', label: 'Kit' },
-    { property: 'nroDocto', label: "Docto" },
-    { property: 'serieDocto', label: "Série" },
-    { property: 'itCodigo', label: "Item"},
-    { property: 'qtSaldo', label: 'Qtde', type: 'number', color:"color-10"},
-    { property: 'qtRuim', label: 'QtRuim', type: 'number', color:"color-07", visible:true},
-    { property: 'descItem', label: "Descrição", width: '300px'}
+    { property: 'nomeEstab', label: "Estab" },
+    { property: 'serieEntra', label: "Série Ent" },
+    { property: 'serieSai', label: "Série Sai"},
+    { property: 'nomeTranspEntra', label: "Desc Transp Ent" },
+    { property: 'nomeTranspSai', label: "Desc Transp Sai" },
+    { property: 'codEntrega', label: "Entrega" },
+    { property: 'rpw', label: "RPW" },
 
   ];
-}
-
-//------------ Coluna Grid Detalhe
-obterColunasTodos(): Array<PoTableColumn> {
-  return [
-    { property: 'itCodigo', label: "Item"},
-    { property: 'descItem', label: "Descrição", width: '300px'},
-    { property: 'qtMascara', label: 'Máscara.', type: 'number'},
-    { property: 'qtPagar', label: 'Entregar', type: 'number', width: '10%', color:"color-07", visible:true},
-    { property: 'qtRenovar', label: 'Renovar', type: 'number', width: '10%', color:"color-10", visible:true},
-    { property: 'qtExtrakit', label: 'ET', type: 'number', width: '10%', color:"color-10", visible:true},
-    { property: 'qtSaldo', label: 'Saldo', type: 'number'},
-    { property: 'codLocaliza', label: "Local"},
-    { property: 'kit', label: "Kit"},
-    { property: 'itPrincipal', label: "Principal"},
-    { property: 'seqOrdem', label: "Ordem"},
-  ];
-}
-
-obterColunasPagar(): Array<PoTableColumn> {
-  return [
-    { property: 'itCodigo', label: "Item"},
-    { property: 'descItem', label: "Descrição", width: '300px'},
-    { property: 'qtMascara', label: 'Máscara', type: 'number'},
-    { property: 'qtPagar', label: 'Entregar', type: 'number', color:"color-07", visible:true},
-    { property: 'qtSaldo', label: 'Saldo', type: 'number'},
-    { property: 'codLocaliza', label: "Local"},
-    { property: 'kit', label: "Kit"},
-    { property: 'itPrincipal', label: "Principal"},
-    { property: 'seqOrdem', label: "Ordem"},
-  ];
-}
-
-obterColunasRenovar(): Array<PoTableColumn> {
-  return [
-    { property: 'itCodigo', label: "Item"},
-    { property: 'descItem', label: "Descrição", width: '300px'},
-    { property: 'qtMascara', label: 'Máscara', type: 'number'},
-    { property: 'qtRenovar', label: 'Renovar', type: 'number', color:"color-10", visible:true},
-    { property: 'qtSaldo', label: 'Saldo', type: 'number'},
-    { property: 'codLocaliza', label: "Local"},
-    { property: 'kit', label: "Kit"},
-    { property: 'itPrincipal', label: "Principal"},
-    { property: 'seqOrdem', label: "Ordem"},
-  ];
-}
-
-obterColunasExtrakit(): Array<PoTableColumn> {
-  return [
-    { property: 'itCodigo', label: "Item"},
-    { property: 'descItem', label: "Descrição", width: '300px'},
-    { property: 'qtMascara', label: 'Máscara', type: 'number'},
-    { property: 'qtExtrakit', label: 'ExtraKit', type: 'number', color:"color-10", visible:true},
-    { property: 'qtSaldo', label: 'Saldo', type: 'number'},
-    { property: 'codLocaliza', label: "Local"},
-    { property: 'kit', label: "Kit"},
-    { property: 'itPrincipal', label: "Principal"},
-    { property: 'seqOrdem', label: "Ordem"},
-  ];
-}
-
-obterColunasSemSaldo(): Array<PoTableColumn> {
-  return [
-    { property: 'itCodigo', label: "Item"},
-    { property: 'descItem', label: "Descrição", width: '300px'},
-    { property: 'qtMascara', label: 'Máscara', type: 'number'},
-    { property: 'qtPagar', label: 'Não Atendida', type: 'number', color:"color-08", visible:true},
-    { property: 'qtSaldo', label: 'Saldo', type: 'number'},
-    { property: 'kit', label: "Kit"},
-  ];
-}
-
-obterColunasEntradas(): Array<PoTableColumn> {
-  return [
-    { property: 'idi-sit', label: 'Sefaz', type: 'label',
-    labels: [
-      { value: 1,  color: 'color-08', label: 'NFe não autorizada' },
-      { value: 2,  color: 'color-08', label: 'Em Processamento' },
-      { value: 3,  color: 'color-10', label: 'Autorizada' },
-      { value: 4,  color: 'color-07', label: 'Uso denegado' },
-      { value: 5,  color: 'color-07', label: 'Docto Rejeitado' },
-      { value: 6,  color: 'color-07', label: 'Docto Cancelado' },
-      { value: 7,  color: 'color-07', label: 'Docto Inutilizado' },
-      { value: 8,  color: 'color-08', label: 'Em processamento no Aplicativo de Transmissão' },
-      { value: 9,  color: 'color-08', label: 'Em processamento na SEFAZ' },
-      { value: 10, color: 'color-08', label: 'Em processamento no SCAN' },
-      { value: 11, color: 'color-10', label: 'NF-e Gerada' },
-      { value: 12, color: 'color-08', label: 'NF-e em Processo de Cancelamento' },
-      { value: 13, color: 'color-08', label: 'NF-e em Processo de Inutilizacao' },
-      { value: 14, color: 'color-08', label: 'NF-e Pendente de Retorno' },
-      { value: 15, color: 'color-07', label: 'DPEC recebido pelo SCE' },
-    ]},
-    { property: 'cod-estabel', label:"Estab"},
-    { property: 'cod-emitente', label:"Emitente"},
-    { property: 'serie-docto', label:"Serie"},
-    { property: 'nro-docto', label:"Docto"},
-    { property: 'nat-operacao', label:"Nat.Oper"}
-  ]
-}
-
-obterColunasEntradasEstoque(): Array<PoTableColumn> {
-  return [
-    { property: 'idi-sit', label: 'Estoque', type: 'label',
-    labels: [
-      { value: 0,  color: 'color-07', label: 'Não atualizada' },
-      { value: 1,  color: 'color-10', label: 'Atualizada' },
-    ]},
-    { property: 'cod-estabel', label:"Estab"},
-    { property: 'cod-emitente', label:"Emitente"},
-    { property: 'serie-docto', label:"Serie"},
-    { property: 'nro-docto', label:"Docto"},
-    { property: 'nat-operacao', label:"Nat.Oper"}
-  ]
 }
 
 
