@@ -1,0 +1,269 @@
+    <div class="sample-container">
+      <po-loading-overlay *ngIf="loadTela===true" [p-text]="labelLoadTela" [p-screen-lock]="true"></po-loading-overlay>
+    </div>
+    <po-stepper #stepper>
+      <po-step p-label="Técnico" [p-can-active-next-step]="canActiveNextStep.bind(this)">
+        <po-widget class="po-md-12" [p-height]=450 [p-primary-label]="lblStepProximo"
+          (p-primary-action)="stepper.next()">
+
+          <po-divider p-label="Estabelecimento e Técnico"></po-divider>
+
+          <div class="po-md-12">
+            <div class="po-md-6">
+              <po-combo [ngModel]="codEstabelecimento" (ngModelChange)="codEstabelecimento = $event"
+                 (p-change)="onEstabChange($event)"
+                [p-options]="listaEstabelecimentos" p-label="Estabelecimento" p-icon="po-icon-pin"
+                [p-placeholder]="placeHolderEstabelecimento">
+                <ng-template p-combo-option-template let-option>
+                  <div class="po-row">
+                    <po-icon class="po-sm-2 po-md-3 po-lg-1" p-size="sm" p-icon="po-icon-pin"></po-icon>
+                    <div class="po-sm-10 po-md-9 po-lg-11">
+                      <div class="po-font-text-large-bold">{{ option.label }}</div>
+                      <div class="po-font-text-smaller">Filial: {{ option.codFilial }}</div>
+                    </div>
+                  </div>
+                </ng-template>
+              </po-combo>
+            </div>
+
+            <div class="po-md-6">
+              <po-combo p-label="Técnico" [ngModel]="codTecnico" (ngModelChange)="codTecnico = $event"
+                p-icon="po-icon-user"     [p-options]="listaTecnicos"
+                (p-change)="onTecnicoChange($event)"
+                [p-placeholder]="loadTecnico" [p-clean]="true" >
+                <ng-template p-combo-option-template let-option>
+                  <div class="po-row">
+                    <po-icon class="po-sm-2 po-md-3 po-lg-1" p-size="sm" p-icon="po-icon-user"></po-icon>
+                    <div class="po-sm-10 po-md-9 po-lg-11">
+                      <div class="po-font-text-large-bold">{{ option.label }}</div>
+                      <div class="po-font-text-smaller">Técnico: {{ option.value }}</div>
+                    </div>
+                  </div>
+                </ng-template>
+              </po-combo>
+            </div>
+          </div>
+        </po-widget>
+      </po-step>
+
+      <po-step p-label="Dados NF" [p-can-active-next-step]="canActiveNextStep.bind(this)">
+
+        <po-widget class="po-md-12" [p-height]=450 [p-primary-label]="lblStepAnterior"
+          [p-secondary-label]="lblStepProximo" (p-primary-action)="stepper.previous()"
+          (p-secondary-action)="stepper.next()">
+
+          <div class="po-md-12">
+            <div class="po-md-5">
+              <po-divider p-label="Informações Nota Fiscal"></po-divider>
+              <div class="po-md-12">
+                <po-input [ngModel]="serieNota" class="po-lg-9" p-clean p-icon="po-icon-document-filled"
+                  p-label="Série Entrada" />
+              </div>
+              <div class="po-md-12">
+                <po-input [ngModel]="estabNota" class="po-lg-9" p-clean p-icon="po-icon-document-filled"
+                  p-label="Série Saída" />
+              </div>
+            </div>
+
+            <div class="po-md-7">
+              <po-divider p-label="Transporte e Entrega"></po-divider>
+              <div class="po-md-12">
+                <po-combo p-label="Transportadora Entrada" p-icon="po-icon-truck"
+                  [p-options]="listaTransp" p-placeholder="Selecione transportadora" [p-clean]="true"
+                  [ngModel]="codTransEnt" (ngModelChange)="codTransEnt = $event">
+                  <ng-template p-combo-option-template let-option>
+                    <div class="po-row">
+                      <po-icon p-icon="po-icon-truck" class="po-sm-2 po-md-3 po-lg-1" p-size="sm"></po-icon>
+                      <div class="po-sm-10 po-md-9 po-lg-11">
+                        <div class="po-font-text-large-bold">{{ option.label }}</div>
+                        <div class="po-font-text-smaller">Transportadora: {{ option.value }}</div>
+                      </div>
+                    </div>
+                  </ng-template>
+                </po-combo>
+              </div>
+              <div class="po-md-12">
+                <po-combo p-label="Transportadora Saída" p-icon="po-icon-truck"
+                  [p-options]="listaTransp" p-placeholder="Selecione transportadora" [p-clean]="true"
+                  [ngModel]="codTransSai" (ngModelChange)="codTransSai = $event">
+                  <ng-template p-combo-option-template let-option>
+                    <div class="po-row">
+                      <po-icon p-icon="po-icon-truck" class="po-sm-2 po-md-3 po-lg-1" p-size="sm"></po-icon>
+                      <div class="po-sm-10 po-md-9 po-lg-11">
+                        <div class="po-font-text-large-bold">{{ option.label }}</div>
+                        <div class="po-font-text-smaller">Transportadora: {{ option.value }}</div>
+                      </div>
+                    </div>
+                  </ng-template>
+                </po-combo>
+              </div>
+
+
+              <div class="po-md-12">
+                <po-combo p-label="Entrega" p-icon="po-icon-pin" [p-options]="listaEntrega"
+                  p-placeholder="Selecione entrega" [p-clean]="true"
+                  [ngModel]="codEntrega" (ngModelChange)="codEntrega = $event">
+                  <ng-template p-combo-option-template let-option>
+                    <div class="po-row">
+                      <po-icon p-icon="po-icon-truck" class="po-sm-2 po-md-3 po-lg-1" p-size="sm"></po-icon>
+                      <div class="po-sm-10 po-md-9 po-lg-11">
+                        <div class="po-font-text-large-bold">{{ option.label }}</div>
+                        <div class="po-font-text-smaller">Cidade: {{ option.cidade }}</div>
+                      </div>
+                    </div>
+                  </ng-template>
+                </po-combo>
+              </div>
+            </div>
+          </div>
+        </po-widget>
+      </po-step>
+
+      <po-step p-label="ExtraKit" [p-can-active-next-step]="canActiveNextStep.bind(this)">
+
+        <po-widget class="po-md-12" [p-primary-label]="lblStepAnterior" [p-height]="450"
+          [p-secondary-label]="lblStepExecutar" (p-primary-action)="stepper.previous()"
+          (p-secondary-action)="stepper.next()">
+
+          <div class="po-md-12">
+            <po-button p-label="Excluir Seleção" (p-click)="onExcluirTodosExtraKit()" p-icon="po-icon po-icon-delete" p-kind="primary"></po-button><hr>
+         </div>
+         
+
+         <div class="po-row">
+          <div class="po-md-12">
+          <po-table #gridExtrakit [p-items]="listaExtraKit"
+                                  [p-columns]="colunasKit"
+                                  p-single-select="true"
+                                  p-hide-columns-manager="true"
+                                  p-striped="true"
+                                  [p-single-select]="false"
+                                  [p-selectable]="true"
+                                 
+
+            ></po-table></div>
+         </div>
+
+        </po-widget>
+      </po-step>
+
+      <po-step p-label="Resumo">
+        <po-widget class="po-md-12" [p-height]=450 [p-primary-label]="lblStepAnterior"
+          (p-primary-action)="stepper.previous()">
+
+          <div class="po-md-12">
+            <po-radio-group [p-columns]="3" [ngModel]="tipoCalculo" (ngModelChange)="tipoCalculo = $event" (p-change)="onTipoCalculo($event)"
+                            p-label="Tipo de Cálculo" [p-options]="options" />
+          </div>
+
+          <div class="po-md-12">
+
+          <po-widget class="po-lg-2 po-mt-2" [p-height]="150" p-primary-label="Exibir" 
+              (p-primary-action)="onOpenModal('VisaoGeral')">
+              <div class="po-font-subtitle po-text-center" style="color:navy"> {{labelContadores[0]}} </div>
+              <div class="po-text-center" style="color:navy">Visão Geral</div>
+            </po-widget>
+
+            <po-widget class="po-lg-2 po-mt-2" [p-height]="150" p-primary-label="Exibir / Editar"
+              (p-primary-action)="onOpenModal('Pagamentos')">
+              <div class="po-font-subtitle po-text-center" style="color:red">{{labelContadores[1]}}</div>
+              <div class="po-text-center" style="color:red">Pagamentos</div>
+            </po-widget>
+
+            <po-widget class="po-lg-2 po-mt-2" [p-height]="150" p-primary-label="Exibir"
+              (p-primary-action)="onOpenModal('Renovacao')">
+              <div class="po-font-subtitle po-text-center" style="color:green">{{labelContadores[2]}}</div>
+              <div class="po-text-center" style="color:green">Renovações</div>
+            </po-widget>
+
+            <po-widget class="po-lg-2 po-mt-2" [p-height]="150" p-primary-label="Exibir"
+              (p-primary-action)="onOpenModal('SomenteEntrada')">
+              <div class="po-font-subtitle po-text-center" style="color:green">{{labelContadores[3]}}</div>
+              <div class="po-text-center" style="color:green">Somente Entrada</div>
+            </po-widget>
+
+            <po-widget class="po-lg-2 po-mt-2" [p-height]="150" p-primary-label="Exibir"
+              (p-primary-action)="onOpenModal('ExtraKit')">
+              <div class="po-font-subtitle po-text-center" style="color:green">{{labelContadores[4]}}</div>
+              <div class="po-text-center" style="color:green">Extra-Kit</div>
+            </po-widget>
+
+            <po-widget class="po-lg-2 po-mt-2" [p-height]="150" p-primary-label="Exibir"
+              (p-primary-action)="onOpenModal('SemSaldo')">
+              <div class="po-font-subtitle po-text-center" style="color:orange">{{labelContadores[5]}}</div>
+              <div class="po-text-center" style="color:orange">Sem Saldo</div>
+            </po-widget>
+          </div>
+            <div class="po-row">&nbsp;</div>
+            <hr>
+            <div class="po-md-12">
+
+              <po-button class="po-md-6" p-icon="po-icon po-icon-clipboard" p-label="Aprovar" (p-click)="onAprovarCalculo()"
+                p-kind="primary" ></po-button>
+
+              <po-button class="po-md-6" p-icon="po-icon po-icon-clipboard" p-label="Aprovar Sem Gerar Saída"
+                p-kind="primary"></po-button>
+
+            </div>
+
+          </po-widget>
+      </po-step>
+    </po-stepper>
+
+    <po-modal #detailsModal p-size="auto" p-title="{{this.tituloDetalhe}}">
+      <po-table #gridDetalhe
+      [p-columns]="colunasDetalhe"
+      [p-striped]="true"
+      [p-items]="itemsDetalhe"
+      [p-hide-table-search]="false"
+      [p-hide-columns-manager]="true"
+
+      p-sort="true"
+      [p-actions]="opcoesGridPagto"
+      />
+      <po-modal-footer [p-disabled-align]="false">
+        <po-button p-label="Exportar para excel" (p-click)="this.onExportarExcel()" p-icon="po-icon po-icon-doc-xls"> </po-button>
+        <po-button p-kind="primary" p-label="Fechar" (p-click)="this.detailsModal.close()"> </po-button>
+      </po-modal-footer>
+
+    </po-modal>
+
+
+  <po-modal #loginModal  p-title="Almoxarifado" 
+                         p-size="auto" 
+                         p-click-out="false" 
+                         [p-primary-action]="acaoLogin" >
+    <div class="po-row">
+      <po-input
+        p-icon="po-icon po-icon-user"
+        class="po-md-12"
+        [ngModel]="codUsuario" (ngModelChange)="codUsuario = $event"
+        p-clean
+
+        p-label="Técnico">
+      </po-input>
+    </div>
+
+    <div class="po-row">
+      <po-password
+        class="po-md-12"
+        [ngModel]="senha" (ngModelChange)="senha = $event"
+        p-clean
+        p-label="Senha">
+      </po-password>
+    </div>
+    <!-- <hr>
+
+    <div class="po-row">
+      <po-button
+        class="po-md-12"
+       p-kind="primary"
+       p-label="Login"
+       [p-loading]="loadLogin" (p-click)="onLogarUsuario()"></po-button>
+       </div> -->
+  </po-modal>
+
+
+
+
+

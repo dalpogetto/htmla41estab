@@ -1,0 +1,86 @@
+{
+   "ObterEstabel":{"items":[{"nome": "Campinas", "CodEstabel":"131"}, {"nome": "São Paulo", "CodEstabel":"108"}]},
+   "ObterEmitente":{"items":[{"nome": "Joares Soares", "CodEmitente":1435}, {"nome": "Visconde de Sab", "CodEmitente": 1247}]},
+
+   
+  "PrIntBatch":
+    {
+        "items": [
+           {
+              "id-batch": 209,
+              "cod-int": 300300,
+              "dthr-batch": "2022-11-01T00:00:00-00:00",
+              "sit-pendente": true,
+              "tab-key": "IdPedido:209"
+           },
+           {
+            "id-batch": 210,
+            "cod-int": 300500,
+            "dthr-batch": "2022-11-01T00:00:00-00:00",
+            "sit-pendente": true,
+            "tab-key": "IdPedido:209"
+         
+         }
+         ],
+        "hasNext": true
+     },
+
+     "PrIntErro":
+     {
+        "items": [
+           {
+              "id-batch": 209,
+              "cod-int": 300300,
+              "dthr-batch": "2022-11-01T00:00:00-00:00",
+              "sit-pendente": true,
+              "tab-key": "IdPedido:209"
+           },
+           {
+            "id-batch": 210,
+            "cod-int": 300500,
+            "dthr-batch": "2022-11-01T00:00:00-00:00",
+            "sit-pendente": true,
+            "tab-key": "IdPedido:209"
+         
+         }
+         ],
+        "hasNext": true
+     },
+
+
+     "PrIntBatchMetadata":
+     {
+        "version": 1,
+        "title": "Person Table",
+        "fields":[
+            { "property": "id-batch", "key": true, "label":"ID Batch"},
+            { "property": "cod-int", "label": "Cod Int"},
+            { "property": "dthr-batch", "label": "Data Inc" },
+            { "property": "tab-key", "label": "Chave Tab" },
+            { "property": "sit-pendente", "label": "Batch Pendente", "type": "label", "filter": false, "gridColumns": 7,
+               "labels": [
+                  { "value": true, "color": "color-10", "content": "A", "label": "Em Análise" },
+                  { "value": false, "color": "color-02", "content": "S", "label": "Em Separação" }
+               ]
+            }
+        ]
+     },
+
+     "PrIntErroMetadata":
+     {
+        "version": 1,
+        "title": "Person Table",
+        "fields":[
+            { "property": "id-batch", "key": true, "label":"ID Batch"},
+            { "property": "cod-int", "label": "Cod Int"},
+            { "property": "dthr-batch", "label": "Data Inc" },
+            { "property": "tab-key", "label": "Chave Tab" },
+            { "property": "sit-pendente", "label": "Batch Pendente", "type": "label", "filter": false, "gridColumns": 7,
+               "labels": [
+                  { "value": true, "color": "color-10", "content": "A", "label": "Em Análise" },
+                  { "value": false, "color": "color-02", "content": "S", "label": "Em Separação" }
+               ]
+            }
+        ]
+     }
+}
