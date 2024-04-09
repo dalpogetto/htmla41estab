@@ -30,28 +30,14 @@ processoInfo!: string
 tituloTela!:string
 dashboard:boolean=false
 
-private sub!: Subscription
 
 constructor(private cdRef : ChangeDetectorRef){
 
 }
 
-
 ngOnInit(): void {
-  this.sub = this.srvTotvs.ObterParametros().subscribe({
-    next: (response: any) => {
-      this.estabInfo = response.estabInfo ?? this.estabInfo
-      this.tecnicoInfo = response.tecInfo ?? this.tecnicoInfo
-      this.processoInfo = response.processoInfo ?? this.processoInfo
-      this.tituloTela = response.tituloTela ?? this.tituloTela
-      this.dashboard = response.dashboard ?? this.dashboard
-      this.cdRef.detectChanges()
-    }})
 }
 
-ngOnDestroy(): void{
-  this.sub.unsubscribe()
-}
 
 
 }

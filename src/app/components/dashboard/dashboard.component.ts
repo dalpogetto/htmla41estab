@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { PoModalAction, PoModalComponent, PoNotificationService, PoTableColumn } from '@po-ui/ng-components';
+import { PoModalAction, PoModalComponent, PoNotificationService, PoTableAction, PoTableColumn } from '@po-ui/ng-components';
 import { Subscription, delay, interval } from 'rxjs';
 import { TotvsServiceMock } from 'src/app/services/totvs-service-mock.service';
 import { TotvsService } from 'src/app/services/totvs-service.service';
@@ -19,28 +19,30 @@ export class DashboardComponent {
   private srvNotification = inject(PoNotificationService)
 
   //---Variaveis
-  loadLogin:boolean=false
   loadTela: boolean = false
   codEstabel: string=''
-  codTransEnt: string = ''
-  codTransSai: string = ''
+  codTranspEnt: string = ''
+  codTranspSai: string = ''
   codEntrega: string = ''
   serieEnt: string=''
   serieSai: string=''
   rpw:string=''
 
-
   //ListasCombo
-  placeHolderEstabelecimento:string=''
   listaEstabelecimentos!: any[]
   listaTransp!:any[]
   
-
-
   //---Grids de Notas
   colunas!: PoTableColumn[]
   lista!: any[]
   sub!:Subscription;
+
+
+  //--------- Opcoes Page Dinamic (ExtraKit - Resumo)
+readonly opcoes: PoTableAction[] = [
+  {label: '', icon: 'po-icon po-icon po-icon-edit', action: this.onEditar.bind(this)}
+];
+
 
   acaoLogin: PoModalAction = {
     action: () => {
@@ -53,77 +55,79 @@ export class DashboardComponent {
     //Colunas do grid
     this.colunas = this.srvTotvs.obterColunas()
 
+    //Lista
+    this.listar()
+
     //--- Carregar combo de estabelecimentos
-    this.placeHolderEstabelecimento = 'Aguarde, carregando lista...'
     this.srvTotvs.ObterEstabelecimentos().subscribe({
       next: (response: any) => {
           this.listaEstabelecimentos = (response as any[]).sort(this.ordenarCampos(['label']))
-          this.placeHolderEstabelecimento = 'Selecione um estabelecimento'
       },
       error: (e) => { this.srvNotification.error("Ocorreu um erro na requisição"); return}
     })
 
     //--- Carregar combo transportadoras
-    this.srvTotvs
-      .ObterTransportadoras().subscribe({
+    this.srvTotvs.ObterTransportadoras().subscribe({
         next:(response:any)=>{
           this.listaTransp = (response as any[]).sort(this.ordenarCampos(['label']))
         },
         error: (e) => this.srvNotification.error('Ocorreu um erro na requisição'),
     })
+  }
 
-    
+  listar(){
+
+    //--- Carregar combo transportadoras
+    this.srvTotvs
+      .Obter().subscribe({
+        next:(response:any)=>{
+          this.lista = response.items
+        },
+        error: (e) => this.srvNotification.error('Ocorreu um erro na requisição'),
+    })
 
   }
 
-  
+  onEditar(obj:any){
+    this.codEstabel = obj.codEstabel, 
+    this.serieEnt = obj.serieEntra,
+    this.serieSai = obj.serieSai,
+    this.codTranspEnt = obj.codTranspEntra,
+    this.codTranspSai = obj.codTranspSai,
+    this.codEntrega = obj.codEntrega,
+    this.rpw = obj.rpw
+
+    this.cadModal?.open();
+  }
+
   onSalvar(){
-    this.cadModal?.close()
 
-  }
-
-  onLogarUsuario(){
-
-
-    this.loadLogin=true
-    //Parametros usuario e senha
+    //Parametros da Nota
+    let paramsTela:any = { paramsTela:{
+      codEstabel: this.codEstabel, 
+      serieEntra: this.serieEnt,
+      serieSai: this.serieSai,
+      codTranspEntra: this.codTranspEnt,
+      codTranspSai: this.codTranspSai,
+      codEntrega: this.codEntrega,
+      rpw: this.rpw
+    }}
     
-    //Chamar servico de login
-    this.srvTotvs.LoginAlmoxarifado().subscribe({
+    //Salvar
+    this.srvTotvs.Salvar(paramsTela).subscribe({
       next: (response: any) => {
 
           //if(response.senhaValida){
           if(true){
-
-            //Parametros da Nota
-            let paramsTela:any = {
-              codEstabel: this.codEstabel, 
-              serieEnt: this.serieEnt,
-              serieSai: this.serieSai,
-              codTranspEnt: this.codTransEnt,
-              codTranspSai: this.codTransSai,
-              codEntrega: this.codEntrega,
-              rpw: this.rpw
-            }
-          
             //Fechar a tela de login
             this.cadModal?.close()
-
-            //Chamar Método 
-            this.srvTotvs.ObterNrProcesso(paramsTela).subscribe({
-              next: (response: any) => {
-                  
-
-              },
-              error: (e) => { this.srvNotification.error("Ocorreu um erro na requisição"); return}
-            })
           }
           else{
 
                this.srvNotification.error("Erro na validação do usuário:"  + response.mensagem)
                this.loadTela = false
           }
-
+          this.listar()
       },
       error: (e) => {
         this.srvNotification.error("Ocorreu um erro na requisição " )
@@ -138,7 +142,4 @@ export class DashboardComponent {
     if (o[0] === '-') { dir = -1; o=o.substring(1); }
     return a[o] > b[o] ? dir : a[o] < b[o] ? -(dir) : 0;
     }).reduce((p, n) => p ? p : n, 0);
-
-
-
 }

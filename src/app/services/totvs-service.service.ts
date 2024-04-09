@@ -19,20 +19,6 @@ export class TotvsService {
 
   constructor(private http: HttpClient ) { }
 
-  //--- Variavel 
-  private emissorEvento$ = new Subject<any>();
-
-  //--- Emissor 
-  public EmitirParametros(valor: any) {
-    this.emissorEvento$.next(valor);
-  }
-
-  //--- Observador
-
-  public ObterParametros() {
-    return this.emissorEvento$.asObservable();
-  }
-
   //--------------------- INTERPRETADOR RESULTADO DE ERROS/WARNING
   public tratarErros(mensagem:any):string{
      if (mensagem.messages ==! undefined)
@@ -44,17 +30,16 @@ export class TotvsService {
 //------------ Colunas Grid Saldo Terceiro
 obterColunas(): Array<PoTableColumn> {
   return [
-    { property: 'nomeEstab', label: "Estab" },
+    { property: 'nomeEstabel', label: "Estab" },
     { property: 'serieEntra', label: "Série Ent" },
     { property: 'serieSai', label: "Série Sai"},
-    { property: 'nomeTranspEntra', label: "Desc Transp Ent" },
-    { property: 'nomeTranspSai', label: "Desc Transp Sai" },
+    { property: 'nomeTranspEnt', label: "Transporte Ent" },
+    { property: 'nomeTranspSai', label: "Transporte Sai" },
     { property: 'codEntrega', label: "Entrega" },
     { property: 'rpw', label: "RPW" },
 
   ];
 }
-
 
   //---------------------- COMBOBOX ESTABELECIMENTOS
   //Retorno transformado no formato {label: xxx, value: yyyy}
@@ -63,16 +48,6 @@ obterColunas(): Array<PoTableColumn> {
                  .pipe(
                   //tap(data => {console.log("Retorno API TOTVS => ", data)}),
                   map(item => { return item.items.map((item:any) =>  { return { label:item.codEstab + ' ' + item.nome, value: item.codEstab, codFilial: item.codFilial } }) }),
-                  ///tap(data => {console.log("Data Transformada pelo Map =>", data)}),
-                  take(1));
-  }
-
-  //---------------------- COMBOBOX TECNICOS
-  /*Retorno transformado no formato {label: xxx, value: yyyy}*/
-  public ObterEmitentesDoEstabelecimento(id:string){
-    return this.http.get<any>(`${this._url}/ObterTecEstab?codEstabel=${id}`, {headers:headersTotvs})
-                 .pipe(
-                  map(item => { return item.items.map((item:any) =>  { return { label: item.codTec + ' ' + item.nomeAbrev, value: item.codTec  } }) }),
                   ///tap(data => {console.log("Data Transformada pelo Map =>", data)}),
                   take(1));
   }
@@ -103,67 +78,18 @@ obterColunas(): Array<PoTableColumn> {
   }
 
   //---------------------- Eliminar por id
-  public EliminarPorId(params?: any){
-    return this.http.post(`${this._url}/EliminarPorId`, params, {headers:headersTotvs})
+  public Salvar(params?: any){
+    return this.http.post(`${this._url}/SalvarCalcEstab`, params, {headers:headersTotvs})
                 .pipe(take(1));
   }
   
 
   //---------------------- GRID EXTRAKIT
-  public ObterExtraKit(params?: any){
-    return this.http.post(`${this._url}/ObterExtrakit`, params, {headers:headersTotvs})
+  public Obter(params?: any){
+    return this.http.get(`${this._url}/ObterCalcEstab`, {params:params, headers:headersTotvs})
                    .pipe(take(1));
   }
 
-  //---------------------- Resumo
-  public PrepararResumo(params?: any){
-    return this.http.post(`${this._url}/PrepararCalculo`, params, {headers:headersTotvs})
-                   .pipe(take(1));
-  }
-
-    //---------------------- Processar Entradas
-    public ProcessarEntradas(params?: any){
-      return this.http.post(`${this._url}/ProcessarEntradas`, params, {headers:headersTotvs})
-                     .pipe(take(1));
-    }
-
-    //---------------------- Processar Entradas
-    public ProcessarSaidasReparos(params?: any){
-      return this.http.post(`${this._url}/ProcessarSaidasReparos`, params, {headers:headersTotvs})
-                      .pipe(take(1));
-    }
-    
-
-  //---------------------- Login
-  public LoginAlmoxarifado(params?: any){
-    return this.http.post(`${this._url}/LoginAlmoxa`, params, {headers:headersTotvs})
-                   .pipe(take(1));
-  }
-
-  //---------------------- Variaveis Globais
-  public ObterVariaveisGlobais(params?: any){
-    return this.http.get(`${this._url}/ObterVariaveisGlobais`, {params, headers:headersTotvs})
-                   .pipe(take(1));
-  }
-
-    //---------------------- Processo
-    public ObterNrProcesso(params?: any){
-      return this.http.get(`${this._url}/ObterNrProcesso`, {params, headers:headersTotvs})
-                     .pipe(take(1));
-    }
-  
-
-  //---------------------- Programas DDK
-  public AbrirProgramaTotvs(params?: any){
-    return this.http.get('/totvs-menu/rest/exec?program=pdp/pd1001.w&params=', {params, headers:headersTotvs})
-                   .pipe(take(1));
-  }
-
-  //---------------------- Login
-  public ObterNotas(params?: any){
-    return this.http.post(`${this._url}/ObterNotas`, params, {headers:headersTotvs})
-                   .pipe(take(1));
-  }
 
 
 }

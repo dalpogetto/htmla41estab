@@ -5,6 +5,7 @@
 <div class="po-md-12">
   <po-table
           [p-items]="lista"
+          [p-actions]="opcoes"
           [p-loading]="loadTela"
           [p-striped]="true"
           [p-sort]="true"
@@ -24,7 +25,7 @@
   <div class="po-md-12">
     <po-combo [ngModel]="codEstabel" (ngModelChange)="codEstabel = $event"
                 [p-options]="listaEstabelecimentos" p-label="Estabelecimento" p-icon="po-icon-pin"
-                [p-placeholder]="placeHolderEstabelecimento">
+                p-placeholder="Selecione o estabelecimento">
                 <ng-template p-combo-option-template let-option>
                   <div class="po-row">
                     <po-icon class="po-sm-2 po-md-3 po-lg-1" p-size="sm" p-icon="po-icon-pin"></po-icon>
@@ -45,11 +46,11 @@
 
   <div class="po-row">
     <div class="po-md-6">
-      <po-input [ngModel]="serieEnt" class="po-lg-9" p-clean p-icon="po-icon-document-filled"
+      <po-input [ngModel]="serieEnt" class="po-lg-9" p-clean p-icon="po-icon-document-filled" (ngModelChange)="serieEnt = $event"
         p-label="Série Entrada" />
     </div>
     <div class="po-md-6">
-      <po-input [ngModel]="serieSai" class="po-lg-9" p-clean p-icon="po-icon-document-filled"
+      <po-input [ngModel]="serieSai" class="po-lg-9" p-clean p-icon="po-icon-document-filled" (ngModelChange)="serieSai = $event"
         p-label="Série Saída" />
     </div>
   </div>
@@ -60,7 +61,7 @@
       <div class="po-md-6">
         <po-combo p-label="Transportadora Entrada" p-icon="po-icon-truck"
           [p-options]="listaTransp" p-placeholder="Selecione transportadora" [p-clean]="true"
-          [ngModel]="codTransEnt" (ngModelChange)="codTransEnt = $event">
+          [ngModel]="codTranspEnt" (ngModelChange)="codTranspEnt = $event">
           <ng-template p-combo-option-template let-option>
             <div class="po-row">
               <po-icon p-icon="po-icon-truck" class="po-sm-2 po-md-3 po-lg-1" p-size="sm"></po-icon>
@@ -75,7 +76,7 @@
       <div class="po-md-6">
         <po-combo p-label="Transportadora Saída" p-icon="po-icon-truck"
           [p-options]="listaTransp" p-placeholder="Selecione transportadora" [p-clean]="true"
-          [ngModel]="codTransSai" (ngModelChange)="codTransSai = $event">
+          [ngModel]="codTranspSai" (ngModelChange)="codTranspSai = $event">
           <ng-template p-combo-option-template let-option>
             <div class="po-row">
               <po-icon p-icon="po-icon-truck" class="po-sm-2 po-md-3 po-lg-1" p-size="sm"></po-icon>
@@ -94,10 +95,10 @@
   <div class="po-row">
     <div class="po-md-12">
     <div class="po-md-6">
-      <po-input [ngModel]="codEntrega" p-clean p-icon="po-icon-pin" p-label="Entrega"> </po-input>
+      <po-input [ngModel]="codEntrega" p-clean p-icon="po-icon-pin" p-label="Entrega" (ngModelChange)="codEntrega = $event"> </po-input>
     </div>
     <div class="po-md-6">
-      <po-input [ngModel]="rpw" p-clean p-icon="po-icon-settings" p-label="RPW"> </po-input>
+      <po-input [ngModel]="rpw" p-clean p-icon="po-icon-settings" p-label="RPW" (ngModelChange)="rpw = $event"> </po-input>
     </div>
   </div>
 </div>
