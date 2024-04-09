@@ -5,11 +5,11 @@ import { TotvsServiceMock } from 'src/app/services/totvs-service-mock.service';
 import { TotvsService } from 'src/app/services/totvs-service.service';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  selector: 'app-estabelec',
+  templateUrl: './estabelec.component.html',
+  styleUrls: ['./estabelec.component.css']
 })
-export class DashboardComponent {
+export class EstabelecComponent {
 
   //---------- Acessar a DOM
   @ViewChild('cadModal', { static: true }) cadModal: PoModalComponent | undefined;
