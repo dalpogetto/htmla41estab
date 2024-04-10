@@ -21,7 +21,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
     PoModule,
     HttpClientModule,
     ReactiveFormsModule,
-  
+    FormsModule,
     RouterModule.forRoot([]),
     PoTemplatesModule
   ],

@@ -39,8 +39,19 @@ export class AppComponent {
     | PoModalComponent
     | undefined;
 
-  //form
-  form!: FormGroup;
+   //Formulario
+   public form = this.formBuilder.group({
+    codEstabel: ['', Validators.required],
+    codTranspEntra: [1, Validators.required],
+    codTranspSai: [1, Validators.required],
+    codEntrega: ['Padrão', Validators.required],
+    serieEntra: ['', [Validators.required, Validators.minLength(2)]],
+    serieSai: ['', Validators.required],
+    rpw: ['', Validators.required],
+    nomeTranspEnt: [''],
+    nomeTranspSai: [''],
+    nomeEstabel: [''],
+  });
 
   //---Variaveis
   loadTela: boolean = false;
@@ -75,20 +86,6 @@ export class AppComponent {
     //Colunas do grid
     this.colunas = this.srvTotvs.obterColunas();
 
-    //Formulario
-    this.form = this.formBuilder.group({
-      codEstabel: ['', Validators.required],
-      codTranspEntra: [1, Validators.required],
-      codTranspSai: [1, Validators.required],
-      codEntrega: ['Padrão', Validators.required],
-      serieEntra: ['', [Validators.required, Validators.minLength(2)]],
-      serieSai: ['', Validators.required],
-      rpw: ['', Validators.required],
-      nomeTranspEnt: [''],
-      nomeTranspSai: [''],
-      nomeEstabel: [''],
-    });
-
     //Listar no grid
     this.listar();
 
@@ -96,8 +93,7 @@ export class AppComponent {
     this.srvTotvs.ObterEstabelecimentos().subscribe({
       next: (response: any) => {
         this.listaEstabelecimentos = (response as any[]).sort(
-          this.ordenarCampos(['label'])
-        );
+          this.srvTotvs.ordenarCampos(['label']));
       },
       error: (e) => {
         this.srvNotification.error('Ocorreu um erro na requisição');
@@ -109,7 +105,7 @@ export class AppComponent {
     this.srvTotvs.ObterTransportadoras().subscribe({
       next: (response: any) => {
         this.listaTransp = (response as any[]).sort(
-          this.ordenarCampos(['label'])
+          this.srvTotvs.ordenarCampos(['label'])
         );
       },
       error: (e) => this.srvNotification.error('Ocorreu um erro na requisição'),
@@ -167,18 +163,5 @@ export class AppComponent {
     });
   }
 
-  //Ordenacao campos num array
-  ordenarCampos =
-    (fields: any[]) =>
-    (a: { [x: string]: number }, b: { [x: string]: number }) =>
-      fields
-        .map((o) => {
-          let dir = 1;
-          if (o[0] === '-') {
-            dir = -1;
-            o = o.substring(1);
-          }
-          return a[o] > b[o] ? dir : a[o] < b[o] ? -dir : 0;
-        })
-        .reduce((p, n) => (p ? p : n), 0);
+ 
 }
