@@ -7,21 +7,21 @@ import { PoModule } from '@po-ui/ng-components';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 import { PoTemplatesModule } from '@po-ui/ng-templates';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { EstabelecComponent } from './components/estabelec/estabelec.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    EstabelecComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     PoModule,
     HttpClientModule,
-    FormsModule,
+    ReactiveFormsModule,
+  
     RouterModule.forRoot([]),
     PoTemplatesModule
   ],
