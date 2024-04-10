@@ -1,63 +1,81 @@
-import { ChangeDetectorRef, Component, inject, OnInit, ViewChild } from '@angular/core';
-import { PoMenuItem, PoModalAction, PoModalComponent, PoNotificationService, PoTableAction, PoTableColumn } from '@po-ui/ng-components';
+import {
+  ChangeDetectorRef,
+  Component,
+  inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import {
+  PoMenuItem,
+  PoModalAction,
+  PoModalComponent,
+  PoNotificationService,
+  PoTableAction,
+  PoTableColumn,
+} from '@po-ui/ng-components';
 import { Subscription } from 'rxjs';
 import { TotvsService } from './services/totvs-service.service';
-import { FormBuilder, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-
+import {
+  FormBuilder,
+  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-
-private srvTotvs = inject(TotvsService)
-private srvNotification = inject(PoNotificationService)
-private formBuilder = inject(FormBuilder)
-private cdRef = inject(ChangeDetectorRef)
-
+  private srvTotvs = inject(TotvsService);
+  private srvNotification = inject(PoNotificationService);
+  private formBuilder = inject(FormBuilder);
+  private cdRef = inject(ChangeDetectorRef);
 
   //---------- Acessar a DOM
-  @ViewChild('cadModal', { static: true }) cadModal: PoModalComponent | undefined;
+  @ViewChild('cadModal', { static: true }) cadModal:
+    | PoModalComponent
+    | undefined;
 
   //form
-  form!:UntypedFormGroup
+  form!: FormGroup;
 
   //---Variaveis
-  loadTela: boolean = false
-  
+  loadTela: boolean = false;
+
   //ListasCombo
-  listaEstabelecimentos!: any[]
-  listaTransp!:any[]
-  
-  //---Grids de Notas
-  colunas!: PoTableColumn[]
-  lista!: any[]
-  sub!:Subscription;
+  listaEstabelecimentos!: any[];
+  listaTransp!: any[];
 
+  //---Grid
+  colunas!: PoTableColumn[];
+  lista!: any[];
+  sub!: Subscription;
 
-  //--------- Opcoes Page Dinamic (ExtraKit - Resumo)
-readonly opcoes: PoTableAction[] = [
-  {label: '', icon: 'po-icon po-icon po-icon-edit', action: this.onEditar.bind(this)}
-];
+  //--- Actions
+  readonly opcoes: PoTableAction[] = [
+    {
+      label: '',
+      icon: 'po-icon po-icon po-icon-edit',
+      action: this.onEditar.bind(this),
+    },
+  ];
 
-
-  acaoLogin: PoModalAction = {
-    action: () => { this.onSalvar()},
-    label: 'Salvar'
+  readonly acaoLogin: PoModalAction = {
+    action: () => {
+      this.onSalvar();
+    },
+    label: 'Salvar',
   };
 
-  constructor(){
-
-      
-  }
-
+  //---Inicializar
   ngOnInit(): void {
     //Colunas do grid
-    this.colunas = this.srvTotvs.obterColunas()
+    this.colunas = this.srvTotvs.obterColunas();
 
-    //form
+    //Formulario
     this.form = this.formBuilder.group({
       codEstabel: ['', Validators.required],
       codTranspEntra: [1, Validators.required],
@@ -65,84 +83,102 @@ readonly opcoes: PoTableAction[] = [
       codEntrega: ['Padrão', Validators.required],
       serieEntra: ['', [Validators.required, Validators.minLength(2)]],
       serieSai: ['', Validators.required],
-      rpw:['', Validators.required],
-      nomeTranspEnt:[''],
-      nomeTranspSai:[''],
-      nomeEstabel:[''] })
+      rpw: ['', Validators.required],
+      nomeTranspEnt: [''],
+      nomeTranspSai: [''],
+      nomeEstabel: [''],
+    });
 
-    //Lista
-    this.listar()
+    //Listar no grid
+    this.listar();
 
-    //--- Carregar combo de estabelecimentos
+    //Carregar combo de estabelecimentos
     this.srvTotvs.ObterEstabelecimentos().subscribe({
       next: (response: any) => {
-          this.listaEstabelecimentos = (response as any[]).sort(this.ordenarCampos(['label']))
+        this.listaEstabelecimentos = (response as any[]).sort(
+          this.ordenarCampos(['label'])
+        );
       },
-      error: (e) => { this.srvNotification.error("Ocorreu um erro na requisição"); return}
-    })
+      error: (e) => {
+        this.srvNotification.error('Ocorreu um erro na requisição');
+        return;
+      },
+    });
 
-    //--- Carregar combo transportadoras
+    //Carregar combo transportadoras
     this.srvTotvs.ObterTransportadoras().subscribe({
-        next:(response:any)=>{
-          this.listaTransp = (response as any[]).sort(this.ordenarCampos(['label']))
-        },
-        error: (e) => this.srvNotification.error('Ocorreu um erro na requisição'),
-    })
-    this.cdRef.detectChanges()
+      next: (response: any) => {
+        this.listaTransp = (response as any[]).sort(
+          this.ordenarCampos(['label'])
+        );
+      },
+      error: (e) => this.srvNotification.error('Ocorreu um erro na requisição'),
+    });
+    //Aplicar changes na tela
+    this.cdRef.detectChanges();
   }
 
-  listar(){
-    this.loadTela=true
+  //---Listar registros grid
+  listar() {
+    this.loadTela = true;
 
-    this.srvTotvs
-      .Obter().subscribe({
-        next:(response:any)=>{
-          this.lista = response.items
-          this.loadTela=false
-        },
-        error: (e) => this.srvNotification.error('Ocorreu um erro na requisição'),
-    })
-
+    this.srvTotvs.Obter().subscribe({
+      next: (response: any) => {
+        this.lista = response.items;
+        this.loadTela = false;
+      },
+      error: (e) => this.srvNotification.error('Ocorreu um erro na requisição'),
+    });
   }
 
-  onNovo(){
-    this.form.reset()
-    this.onEditar(null)
+  //---Novo registro
+  onNovo() {
+    this.form.reset();
+    this.onEditar(null);
   }
 
-  onEditar(obj:any){
-
-    if(obj !== null){
-      this.form.setValue(obj)
+  //---Editar registro
+  onEditar(obj: any) {
+    if (obj !== null) {
+      this.form.setValue(obj);
     }
     this.cadModal?.open();
   }
 
-  onSalvar(){
-    if (!this.form.valid){
-      
-      this.srvNotification.error("Preencha todos os campos")
-      return
+  //---Salvar registro
+  onSalvar() {
+    if (!this.form.valid) {
+      this.srvNotification.error('Preencha todos os campos');
+      return;
     }
 
-    let paramsTela:any = { paramsTela: this.form.value }
-    this.cadModal?.close()
-    
-    //Salvar
+    //Dados da tela
+    let paramsTela: any = { paramsTela: this.form.value };
+    this.cadModal?.close();
+
+    //Chamar o servico
     this.srvTotvs.Salvar(paramsTela).subscribe({
       next: (response: any) => {
-          this.listar()
+        this.listar();
       },
       error: (e) => {
-        this.srvNotification.error("Ocorreu um erro na requisição " )
-      }
-    })
+        this.srvNotification.error('Ocorreu um erro na requisição ');
+      },
+    });
   }
 
-  //Utilize o - (menos) para indicar ordenacao descendente
-  ordenarCampos = (fields: any[]) => (a: { [x: string]: number; }, b: { [x: string]: number; }) => fields.map(o => {
-    let dir = 1;
-    if (o[0] === '-') { dir = -1; o=o.substring(1); }
-    return a[o] > b[o] ? dir : a[o] < b[o] ? -(dir) : 0;
-    }).reduce((p, n) => p ? p : n, 0);
+  //Ordenacao campos num array
+  ordenarCampos =
+    (fields: any[]) =>
+    (a: { [x: string]: number }, b: { [x: string]: number }) =>
+      fields
+        .map((o) => {
+          let dir = 1;
+          if (o[0] === '-') {
+            dir = -1;
+            o = o.substring(1);
+          }
+          return a[o] > b[o] ? dir : a[o] < b[o] ? -dir : 0;
+        })
+        .reduce((p, n) => (p ? p : n), 0);
 }
