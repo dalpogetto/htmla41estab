@@ -10,15 +10,19 @@
       <hr>
     </div>
     <div class="po-md-12">
-      <po-table [p-items]="lista" [p-actions]="opcoes" [p-loading]="loadTela" [p-striped]="true" [p-columns]="colunas"
-        [p-hide-table-search]="false" [p-hide-columns-manager]="true" />
-
-
+      <po-table [p-items]="lista" 
+                [p-actions]="opcoes" 
+                [p-loading]="loadTela" 
+                [p-striped]="true" 
+                [p-columns]="colunas"
+                [p-hide-table-search]="false" 
+                [p-hide-columns-manager]="true" />
     </div>
 
-    <po-modal #cadModal p-title="Parâmetros Estabelecimento" p-size="auto" p-click-out="false"
-      [p-primary-action]="acaoLogin">
+    <po-modal #cadModal p-title="Parâmetros Estabelecimento" p-size="auto" p-click-out="false" [p-hide-close]="true"
+      [p-primary-action]="acaoSalvar" [p-secondary-action]="acaoCancelar">
 
+      <div>
       <form [formGroup]="form">
         <div class="po-md-12">
           <po-combo formControlName="codEstabel" [p-options]="listaEstabelecimentos" p-label="Estabelecimento"
@@ -83,7 +87,6 @@
                 </ng-template>
               </po-combo>
             </div>
-
           </div>
         </div>
 
@@ -97,12 +100,8 @@
             </div>
           </div>
         </div>
-      </form>
+      
+      </form></div>
     </po-modal>
-
-
-
-
   </po-page-default>
-
 </div>

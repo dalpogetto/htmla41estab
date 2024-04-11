@@ -23,6 +23,7 @@ import {
   Validators,
 } from '@angular/forms';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -51,6 +52,8 @@ export class AppComponent {
     nomeTranspEnt: [''],
     nomeTranspSai: [''],
     nomeEstabel: [''],
+    
+    
   });
 
   //---Variaveis
@@ -66,38 +69,40 @@ export class AppComponent {
   sub!: Subscription;
 
   //--- Actions
-  readonly opcoes: PoTableAction[] = [
-    {
+  readonly opcoes: PoTableAction[] = [{
       label: '',
       icon: 'po-icon po-icon po-icon-edit',
       action: this.onEditar.bind(this),
-    },
-  ];
+    }];
 
-  readonly acaoLogin: PoModalAction = {
-    action: () => {
-      this.onSalvar();
-    },
+  
+  readonly acaoSalvar: PoModalAction = {
     label: 'Salvar',
-  };
+    action: () => { this.onSalvar() }
+  }
+
+  readonly acaoCancelar: PoModalAction = {
+    label: 'Cancelar',
+    action: () => { this.cadModal?.close() }
+  }
 
   //---Inicializar
   ngOnInit(): void {
     //Colunas do grid
-    this.colunas = this.srvTotvs.obterColunas();
+    this.colunas = this.srvTotvs.obterColunas()
 
     //Listar no grid
-    this.listar();
+    this.listar()
 
     //Carregar combo de estabelecimentos
     this.srvTotvs.ObterEstabelecimentos().subscribe({
       next: (response: any) => {
         this.listaEstabelecimentos = (response as any[]).sort(
-          this.srvTotvs.ordenarCampos(['label']));
+          this.srvTotvs.ordenarCampos(['label']))
       },
       error: (e) => {
-        this.srvNotification.error('Ocorreu um erro na requisição');
-        return;
+        this.srvNotification.error('Ocorreu um erro na requisição')
+        return
       },
     });
 
@@ -106,12 +111,12 @@ export class AppComponent {
       next: (response: any) => {
         this.listaTransp = (response as any[]).sort(
           this.srvTotvs.ordenarCampos(['label'])
-        );
+        )
       },
       error: (e) => this.srvNotification.error('Ocorreu um erro na requisição'),
-    });
+    })
     //Aplicar changes na tela
-    this.cdRef.detectChanges();
+    this.cdRef.detectChanges()
   }
 
   //---Listar registros grid
@@ -120,8 +125,8 @@ export class AppComponent {
 
     this.srvTotvs.Obter().subscribe({
       next: (response: any) => {
-        this.lista = response.items;
-        this.loadTela = false;
+        this.lista = response.items
+        this.loadTela = false
       },
       error: (e) => this.srvNotification.error('Ocorreu um erro na requisição'),
     });
@@ -129,27 +134,34 @@ export class AppComponent {
 
   //---Novo registro
   onNovo() {
-    this.form.reset();
-    this.onEditar(null);
+    this.form.reset()
+    
+    this.onEditar(null)
   }
 
   //---Editar registro
-  onEditar(obj: any) {
-    if (obj !== null) {
-      this.form.setValue(obj);
-    }
+  onEditar(obj: any | null) {
+    
     this.cadModal?.open();
+
+    //hashtag amamos Progress 4gl
+    if ((obj !== null) && (obj['$showAction'] !== undefined))
+       delete obj['$showAction']
+
+    if (obj !== null) {
+      this.form.setValue(obj)
+    }
   }
 
   //---Salvar registro
   onSalvar() {
     if (!this.form.valid) {
       this.srvNotification.error('Preencha todos os campos');
-      return;
+      return
     }
 
     //Dados da tela
-    let paramsTela: any = { paramsTela: this.form.value };
+    let paramsTela: any = { paramsTela: this.form.value }
     this.cadModal?.close();
 
     //Chamar o servico
@@ -158,9 +170,9 @@ export class AppComponent {
         this.listar();
       },
       error: (e) => {
-        this.srvNotification.error('Ocorreu um erro na requisição ');
+        this.srvNotification.error('Ocorreu um erro na requisição ')
       },
-    });
+    })
   }
 
  
