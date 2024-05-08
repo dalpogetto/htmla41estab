@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "htmla41": {
+    "htmla41estab": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/htmla41",
+            "outputPath": "dist/htmla41estab",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -64,10 +64,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "htmla41:build:production"
+              "buildTarget": "htmla41estab:build:production"
             },
             "development": {
-              "buildTarget": "htmla41:build:development"
+              "buildTarget": "htmla41estab:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -75,7 +75,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "htmla41:build"
+            "buildTarget": "htmla41estab:build"
           }
         },
         "test": {

@@ -1,22 +1,32 @@
-<div class="po-wrapper2">
+<div>
 
   <po-toolbar p-title="A41 - PARÂMETROS ESTABELECIMENTO"></po-toolbar>
 
   <po-page-default>
-
     <div class="po-md-12">
       <po-button p-label="Novo Estabelecimento" (p-click)="onNovo()" p-icon="po-icon po-icon-plus"
         p-kind="primary"></po-button>
       <hr>
     </div>
     <div class="po-md-12">
-      <po-table [p-items]="lista" [p-actions]="opcoes" [p-loading]="loadTela" [p-striped]="true" [p-columns]="colunas"
-        [p-hide-table-search]="false" [p-hide-columns-manager]="true"  p-actions-right="true"/>
+      <po-table [p-items]="lista" 
+                [p-actions]="opcoes" 
+                [p-loading]="loadTela" 
+                [p-striped]="true" 
+                [p-columns]="colunas"
+                [p-hide-table-search]="false" 
+                [p-hide-columns-manager]="true" 
+                p-container="true"
+                [p-actions-right]="true"/>
+
     </div>
 
-    <po-modal #cadModal 
-      [p-title]= "tipoAcao ==='I' ? 'Novo Estabelecimento': tipoAcao ==='C' ? 'Copiar [' + nomeEstabel + '] ': nomeEstabel" p-size="lg" p-click-out="false" [p-hide-close]="true"
-      [p-primary-action]="acaoSalvar" [p-secondary-action]="acaoCancelar">
+    <po-modal #cadModal [p-title]= "tipoAcao ==='I' ? 'Novo Estabelecimento': tipoAcao ==='C' ? 'Copiar [' + nomeEstabel + '] ': nomeEstabel" 
+                        p-size="lg" 
+                        p-click-out="false" 
+                        [p-hide-close]="true"
+                        [p-primary-action]="acaoSalvar" 
+                        [p-secondary-action]="acaoCancelar">
 
       <div>
         <form [formGroup]="form">

@@ -57,6 +57,21 @@ export class AppComponent {
     nomeEstabel: [''],
   });
 
+
+  //Declaracao de Variaveis
+  codEmitente: number = 0
+  codEmitenteNaoTipado: any = 0 
+
+  nomeEmitente: string = ''
+  nomeEmitenteNaoTipado: any = ''
+  
+
+  listaEmitente: string[] = []
+  listaEmitenteNaoTipada: any[] = []
+
+
+
+
   //---Variaveis
   loadTela: boolean = false
   nomeEstabel:string=''
@@ -75,19 +90,19 @@ export class AppComponent {
   readonly opcoes: PoTableAction[] = [
     {
       label: 'Editar',
-      icon: 'po-icon po-icon po-icon-edit',
+      icon: 'po-icon po-icon-edit',
       action: this.onEditar.bind(this),
     },
     {
       label: 'Copiar',
-      icon: 'po-icon po-icon po-icon-copy',
+      icon: 'po-icon po-icon-copy',
       action: this.onCopiar.bind(this),
     },
 
     {
       separator:true,
       label: 'Deletar',
-      icon: 'po-icon po-icon po-icon-delete',
+      icon: 'po-icon po-icon-delete',
       action: this.onDeletar.bind(this),
       type:'danger'
     }];
@@ -101,6 +116,10 @@ export class AppComponent {
   readonly acaoCancelar: PoModalAction = {
     label: 'Cancelar',
     action: () => { this.cadModal?.close() }
+  }
+
+  cliqueDoBotal(){
+    alert ("botao acionado")
   }
 
   //---Inicializar
@@ -146,6 +165,7 @@ export class AppComponent {
 
     this.srvTotvs.Obter().subscribe({
       next: (response: any) => {
+        console.log(response)
         this.lista = response.items
         this.loadTela = false
       },
@@ -189,8 +209,8 @@ export class AppComponent {
     let paramTela:any={codEstabel:obj.codEstabel}
     
     this.srvDialog.confirm({
-      title: 'ELIMINAR REGISTRO',
-      message: 'Confirma deleção do registro?',
+      title: "DELETAR REGISTRO",
+      message: `Confirma deleção do registro: ${obj.nomeEstabel} ?`,
       confirm: () => {
         this.loadTela = true
         this.srvTotvs.Deletar(paramTela).subscribe({
